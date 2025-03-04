@@ -23,32 +23,20 @@ ext {
 def srcDir = 'ajd4jp'
 def classDir = 'classes'
 def jarDir = 'bin'
-def apiDir = 'docs/javadoc'
+def javadocDir = 'docs/javadoc'
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
-dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation libs.junit.jupiter
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api libs.commons.math3
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation libs.guava
-}
+dependencies {}
 
 // ソースセットの設定
 sourceSets {
     main {
-        java {
-            srcDirs = [srcDir]
-        }
+        java.srcDirs = [srcDir]
+        resources.includes = ['LICENSE']
     }
 }
 
@@ -59,6 +47,7 @@ java {
     }
 }
 
+// ソースコードのエンコーディングをUTF-8に設定
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -93,6 +82,10 @@ compileJava.dependsOn generateVersionJava
 jar {
     destinationDirectory = file("${jarDir}")
     archiveFileName = project.ext.ajd4jpJarName
+
+    from('.'){
+        include 'LICENSE'
+    }
     
     manifest {
         attributes(
@@ -121,6 +114,7 @@ task createSourceArchive(type: Tar) {
             include 'LICENSE'
             include 'build.gradle'
             include 'settings.gradle'
+            include 'gradle.properties'
             include "${srcDir}/**"
             include 'template/**'
         }
@@ -129,7 +123,7 @@ task createSourceArchive(type: Tar) {
 
 // Javadoc設定
 javadoc {
-    destinationDir = file(apiDir)
+    destinationDir = file(javadocDir)
     options {
         encoding = 'UTF-8'
         charSet = 'UTF-8'
@@ -184,7 +178,7 @@ task buildAjd4jp {
 clean {
     delete classDir
     delete jarDir
-    delete apiDir
+    delete javadocDir
 }
 
 tasks.named('test') {
