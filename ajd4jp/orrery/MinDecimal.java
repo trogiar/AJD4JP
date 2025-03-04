@@ -1,7 +1,7 @@
 /*
  * AJD4JP
  * Copyright (c) 2011-2012  Akira Terasaki
- * このファイルは同梱されているLicense.txtに定めた条件に
+ * このファイルは同梱されているLICENSEに定めた条件に
  * 同意できる場合にのみ利用可能です。
  */
 package ajd4jp.orrery;
