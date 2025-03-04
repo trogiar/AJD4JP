@@ -21,7 +21,6 @@ ext {
 
 // ディレクトリ設定
 def srcDir = 'ajd4jp'
-def classDir = 'classes'
 def jarDir = 'bin'
 def javadocDir = 'docs/javadoc'
 
@@ -143,45 +142,14 @@ javadoc {
     options.links = ['https://docs.oracle.com/javase/jp/8/docs/api/']
 }
 
-// ajd4jp.jarへのシンボリックリンク作成タスク
-task createJarSymlink(type: Exec) {
-    dependsOn jar
-    workingDir jarDir
-    
-    // Windows以外の環境でのみシンボリックリンクを作成
-    onlyIf { !System.getProperty('os.name').toLowerCase().contains('windows') }
-    
-    commandLine 'ln', '-fs', project.ext.ajd4jpJarName, project.ext.ajd4jpCrtName
-}
-
-// Windowsでのシンボリックリンク作成(コピー)
-task createJarCopy(type: Copy) {
-    dependsOn jar
-    
-    // Windowsの環境でのみコピーを作成
-    onlyIf { System.getProperty('os.name').toLowerCase().contains('windows') }
-    
-    doFirst {
-        from "${jarDir}/${project.ext.ajd4jpJarName}"
-        into jarDir
-        rename { String fileName -> project.ext.ajd4jpCrtName }
-    }
-}
-
 // ビルドタスク
 task buildAjd4jp {
-    dependsOn jar, createSourceArchive, javadoc, createJarSymlink, createJarCopy
+    dependsOn jar, createSourceArchive, javadoc
     description = 'AJD4JPのビルド処理を実行します'
 }
 
 // クリーンタスクの拡張
 clean {
-    delete classDir
     delete jarDir
     delete javadocDir
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }
