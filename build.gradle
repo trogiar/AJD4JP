@@ -22,7 +22,7 @@ ext {
 // ディレクトリ設定
 def srcDir = 'ajd4jp'
 def jarDir = 'bin'
-def javadocDir = 'docs/javadoc'
+def javadocDir = 'docs'
 
 repositories {
     // Use Maven Central for resolving dependencies.
