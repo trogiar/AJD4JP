@@ -5,7 +5,7 @@
 	<property name="class.dir" value="classes"/>
 	<property name="jar.dir" value="bin"/>
 	<property name="api.dir" value="api"/>
-	<loadfile property="ver" srcFile="Version.txt">
+	<loadfile property="ver" value="8.0.2.2021">
 		<filterchain>
 			<striplinebreaks/>
 		</filterchain>
@@ -33,16 +33,14 @@
 		<delete dir="${tar.dir}"/>
 		<mkdir dir="${tar.dir}"/>
 		<exec executable="cp">
-			<arg line="-pr Copyright.txt LICENSE Version.txt build.xml ajd4jp template ${tar.dir}"/>
+			<arg line="-pr LICENSE build.xml ajd4jp template ${tar.dir}"/>
 		</exec>
 		<exec executable="tar">
 			<arg line="zcvf ${release} ${tar.dir}"/>
 		</exec>
 		<delete dir="${tar.dir}"/>
 
-		<copy file="Copyright.txt" tofile="${class.dir}/Copyright.txt"/>
 		<copy file="LICENSE" tofile="${class.dir}/LICENSE"/>
-		<copy file="Version.txt" tofile="${class.dir}/Version.txt"/>
 		<delete file="${jar.dir}/${jar.name}"/>
 		<jar destfile="${jar.dir}/${jar.name}" basedir="${class.dir}" index="true">
 			<manifest>
